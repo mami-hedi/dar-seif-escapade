@@ -1,52 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import PageHero from "@/components/shared/PageHero";
-import { toast } from "sonner";
 import exteriorImage from "@/assets/exterior.jpg";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("Message envoyé avec succès !");
-
-    // Reset form after success
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
-
-    // Reset success state after a delay
-    setTimeout(() => setIsSubmitted(false), 3000);
-  };
 
   const contactInfo = [
     {
@@ -96,17 +57,14 @@ const Contact = () => {
                 Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Nom complet *</Label>
                     <Input
                       id="name"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
                       placeholder="Votre nom"
-                      required
                     />
                   </div>
                   <div className="space-y-2">
@@ -115,10 +73,7 @@ const Contact = () => {
                       id="email"
                       name="email"
                       type="email"
-                      value={formData.email}
-                      onChange={handleChange}
                       placeholder="votre@email.com"
-                      required
                     />
                   </div>
                 </div>
@@ -130,8 +85,6 @@ const Contact = () => {
                       id="phone"
                       name="phone"
                       type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
                       placeholder="+216 XX XXX XXX"
                     />
                   </div>
@@ -140,10 +93,7 @@ const Contact = () => {
                     <Input
                       id="subject"
                       name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
                       placeholder="Réservation, Information..."
-                      required
                     />
                   </div>
                 </div>
@@ -153,37 +103,19 @@ const Contact = () => {
                   <Textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     placeholder="Votre message..."
                     rows={6}
-                    required
                   />
                 </div>
 
                 <Button
-                  type="submit"
+                  type="button"
                   variant="hero"
                   size="lg"
-                  disabled={isSubmitting || isSubmitted}
                   className="w-full sm:w-auto"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <span className="animate-spin mr-2">⏳</span>
-                      Envoi en cours...
-                    </>
-                  ) : isSubmitted ? (
-                    <>
-                      <CheckCircle size={18} />
-                      Message envoyé !
-                    </>
-                  ) : (
-                    <>
-                      <Send size={18} />
-                      Envoyer le message
-                    </>
-                  )}
+                  <Send size={18} />
+                  Envoyer le message
                 </Button>
               </form>
             </motion.div>
